@@ -5,12 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0edfa953-37bb-402f-a261-d5d9bfc91b46" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/KiRZ-SECURE-REPOSITORY.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/unibl/etf/Main.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/org/unibl/etf/User.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/unibl/etf/CARoot.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/unibl/etf/CARoot.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/unibl/etf/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/unibl/etf/Main.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -72,6 +68,7 @@
       <workItem from="1677133263489" duration="7571000" />
       <workItem from="1677152934153" duration="4792000" />
       <workItem from="1677159854651" duration="2614000" />
+      <workItem from="1677224289178" duration="196000" />
     </task>
     <servers />
   </component>

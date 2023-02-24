@@ -4,15 +4,16 @@ import org.bouncycastle.asn1.x500.X500Name;
 import org.bouncycastle.cert.*;
 import org.bouncycastle.cert.jcajce.JcaX509CRLConverter;
 import org.bouncycastle.cert.jcajce.JcaX509CertificateConverter;
+import org.bouncycastle.cert.jcajce.JcaX509CertificateHolder;
 import org.bouncycastle.cert.jcajce.JcaX509v3CertificateBuilder;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.operator.ContentSigner;
 import org.bouncycastle.operator.OperatorCreationException;
 import org.bouncycastle.operator.jcajce.JcaContentSignerBuilder;
+import org.bouncycastle.asn1.x509.CRLReason;
 
 import java.io.*;
 import java.math.BigInteger;
-import java.security.cert.X509CRLEntry;
 import java.security.*;
 import java.security.cert.*;
 import java.util.Date;
@@ -100,18 +101,15 @@ public class CARoot {
     public void suspendCertificate(String alias){
         Security.addProvider(new BouncyCastleProvider());
         try {
-            //  Load the CA keystore
+            // Load the CA keystore
             KeyStore keyStore = KeyStore.getInstance("PKCS12", "BC");
             FileInputStream keystoreStream = new FileInputStream("keystore.p12");
             keyStore.load(keystoreStream, "sigurnost".toCharArray());
             keystoreStream.close();
 
-            //  Get the CA certificate and private key from the keystore
+            // Get the CA certificate and private key from the keystore
             X509Certificate caCert = (X509Certificate) keyStore.getCertificate("myca");
             PrivateKey caPrivateKey = (PrivateKey) keyStore.getKey("myca", "sigurnost".toCharArray());
-
-            // Get the certificate that should be suspended
-            X509Certificate suspendedCertificate = (X509Certificate) keyStore.getCertificate(alias);
 
             // Load the CRL file
             InputStream inputStream = new FileInputStream("crl.crl");
@@ -119,14 +117,17 @@ public class CARoot {
             X509CRL crl = (X509CRL) certificateFactory.generateCRL(inputStream);
             inputStream.close();
 
-            // Add the certificate to the CRL's list of revoked certificates
-            X509CRLEntryHolder crlEntry = new X509CRLEntryHolder(suspendedCertificate.getSerialNumber(), new Date(), CRLReason.PRIVILEGE_WITHDRAWN);
+            // Get the certificate that should be revoked
+            X509Certificate suspendedCert = (X509Certificate) keyStore.getCertificate("mynewcert");
+
+            // Create a JcaX509CertificateHolder object from the CA certificate
+            JcaX509CertificateHolder caCertHolder = new JcaX509CertificateHolder(caCert);
 
             // Create a new CRL builder and add the revoked certificate
-            X509v2CRLBuilder crlBuilder = new X509v2CRLBuilder(crl.getIssuerX500Principal(), new Date());
-            crlBuilder.addCRLEntry(crlEntry);
+            X509v2CRLBuilder crlBuilder = new X509v2CRLBuilder(caCertHolder.getIssuer(), new Date());
+            crlBuilder.addCRLEntry(suspendedCert.getSerialNumber(),new Date(),CRLReason.CERTIFICATE_HOLD);
 
-            // Generate a new CRL that includes the revoked certificate
+            // Sign the CRL using the CA private key
             ContentSigner signer = new JcaContentSignerBuilder("SHA256withRSA").build(caPrivateKey);
             X509CRLHolder crlHolder = crlBuilder.build(signer);
             JcaX509CRLConverter converter = new JcaX509CRLConverter();
@@ -137,11 +138,14 @@ public class CARoot {
             FileOutputStream fos = new FileOutputStream("crl.crl");
             fos.write(crlBytes);
             fos.close();
-
         }catch (NoSuchAlgorithmException | NoSuchProviderException | CertificateException | KeyStoreException |
                 IOException | OperatorCreationException | UnrecoverableKeyException | CRLException e){
             e.printStackTrace();
         }
+
+    }
+
+    public void reactivateSertificate(String alias){
 
     }
 
