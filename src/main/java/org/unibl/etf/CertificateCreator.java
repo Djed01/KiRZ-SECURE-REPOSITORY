@@ -26,7 +26,7 @@ import java.util.Date;
 
 public class CertificateCreator {
 
-    void createCertificate() {
+    void createCertificate(String username, String password) {
         Security.addProvider(new BouncyCastleProvider());
         try {
             // Generate a new RSA key pair for the certificate request
@@ -35,7 +35,7 @@ public class CertificateCreator {
             KeyPair keyPair = keyPairGenerator.generateKeyPair();
 
             //  Create a certificate signing request (CSR) for the new certificate
-            X500Name subject = new X500Name("CN=My new certificate");
+            X500Name subject = new X500Name("CN="+username);
             PKCS10CertificationRequestBuilder p10Builder = new JcaPKCS10CertificationRequestBuilder(
                     subject,
                     keyPair.getPublic());
@@ -51,15 +51,15 @@ public class CertificateCreator {
             inputStream.close();
 
             //  Get the CA certificate and private key from the keystore
-            X509Certificate caCert = (X509Certificate) keyStore.getCertificate("myca");
-            PrivateKey caPrivateKey = (PrivateKey) keyStore.getKey("myca", "sigurnost".toCharArray());
+            X509Certificate caCert = (X509Certificate) keyStore.getCertificate("CARoot");
+            PrivateKey caPrivateKey = (PrivateKey) keyStore.getKey("CARoot", "sigurnost".toCharArray());
 
             // Sign the CSR with the CA
             X509v3CertificateBuilder certBuilder = new X509v3CertificateBuilder(
                     new X500Name(caCert.getSubjectDN().getName()),
                     BigInteger.valueOf(System.currentTimeMillis()),
-                    new Date(System.currentTimeMillis() - 1000L * 60 * 60 * 24 * 30),
-                    new Date(System.currentTimeMillis() + 1000L * 60 * 60 * 24 * 365),
+                    new Date(System.currentTimeMillis()),
+                    new Date(System.currentTimeMillis() + 1000L * 60 * 60 * 24 * 183),
                     csr.getSubject(),
                     csr.getSubjectPublicKeyInfo());
 
@@ -84,13 +84,13 @@ public class CertificateCreator {
             // Store the private key entry to the keystore
             PrivateKey certPrivateKey = keyPair.getPrivate();
             KeyStore.PrivateKeyEntry certPrivateKeyEntry = new KeyStore.PrivateKeyEntry(certPrivateKey, new java.security.cert.Certificate[]{cert});
-            keyStore.setEntry("mynewcert", certPrivateKeyEntry, new KeyStore.PasswordProtection("sigurnost".toCharArray()));
+            keyStore.setEntry(username, certPrivateKeyEntry, new KeyStore.PasswordProtection("sigurnost".toCharArray()));
             OutputStream keystoreStream = new FileOutputStream("keystore.p12");
             keyStore.store(keystoreStream, "sigurnost".toCharArray());
             keystoreStream.close();
 
             // Save the signed certificate to a file
-            OutputStream outputStream = new FileOutputStream("./CERTIFICATES/mynewcert.crt");
+            OutputStream outputStream = new FileOutputStream("./CERTIFICATES/"+username+".crt");
             outputStream.write(cert.getEncoded());
             outputStream.close();
 
