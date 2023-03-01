@@ -5,25 +5,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0edfa953-37bb-402f-a261-d5d9bfc91b46" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.gradle/7.4/checksums/checksums.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.4/checksums/checksums.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/7.4/checksums/md5-checksums.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.4/checksums/md5-checksums.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/7.4/checksums/sha1-checksums.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.4/checksums/sha1-checksums.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/7.4/executionHistory/executionHistory.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.4/executionHistory/executionHistory.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/7.4/executionHistory/executionHistory.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.4/executionHistory/executionHistory.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/7.4/fileHashes/fileHashes.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.4/fileHashes/fileHashes.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/7.4/fileHashes/fileHashes.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.4/fileHashes/fileHashes.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/7.4/fileHashes/resourceHashesCache.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/7.4/fileHashes/resourceHashesCache.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/outputFiles.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/file-system.probe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CERTIFICATES/mynewcert.crt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CERTIFICATES/crl.crl" beforeDir="false" afterPath="$PROJECT_DIR$/CERTIFICATES/crl.crl" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/tmp/compileJava/previous-compilation-data.bin" beforeDir="false" afterPath="$PROJECT_DIR$/build/tmp/compileJava/previous-compilation-data.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/crl.crl" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/keystore.p12" beforeDir="false" afterPath="$PROJECT_DIR$/keystore.p12" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/unibl/etf/CARoot.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/unibl/etf/CARoot.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/unibl/etf/CertificateCreator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/unibl/etf/CertificateCreator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/unibl/etf/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/unibl/etf/Main.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -89,6 +82,13 @@
       <workItem from="1677152934153" duration="4792000" />
       <workItem from="1677159854651" duration="2614000" />
       <workItem from="1677224289178" duration="196000" />
+      <workItem from="1677523029315" duration="8385000" />
+      <workItem from="1677563949383" duration="5410000" />
+      <workItem from="1677578579386" duration="6950000" />
+      <workItem from="1677587520131" duration="3209000" />
+      <workItem from="1677602676697" duration="4617000" />
+      <workItem from="1677648653301" duration="11173000" />
+      <workItem from="1677677171297" duration="3383000" />
     </task>
     <servers />
   </component>
