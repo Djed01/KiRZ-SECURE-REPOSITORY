@@ -138,7 +138,8 @@ public class Main {
     public static void main(String[] args) {
 //        welcomeMenu();
 //        user.upload("jovan");
-        user.download("jovan","test.txt");
+          user.download("jovan","test.txt");
 //        repositoryMenu("jovan");
+//        user.decrypt();
     }
 }

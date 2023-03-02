@@ -13,11 +13,20 @@
       <change beforePath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/buildOutputCleanup/buildOutputCleanup.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/file-system.probe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CERTIFICATES/crl.crl" beforeDir="false" afterPath="$PROJECT_DIR$/CERTIFICATES/crl.crl" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DOWNLOADS/jovan/test.txt" beforeDir="false" afterPath="$PROJECT_DIR$/DOWNLOADS/jovan/test.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HASHES/jovan/test.txt.1.sig" beforeDir="false" afterPath="$PROJECT_DIR$/HASHES/jovan/test.txt.1.sig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HASHES/jovan/test.txt.2.sig" beforeDir="false" afterPath="$PROJECT_DIR$/HASHES/jovan/test.txt.2.sig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HASHES/jovan/test.txt.3.sig" beforeDir="false" afterPath="$PROJECT_DIR$/HASHES/jovan/test.txt.3.sig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HASHES/jovan/test.txt.4.sig" beforeDir="false" afterPath="$PROJECT_DIR$/HASHES/jovan/test.txt.4.sig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HASHES/jovan/test.txt.5.sig" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/REPOSITORY/jovan/dir1/test.txt.1" beforeDir="false" afterPath="$PROJECT_DIR$/REPOSITORY/jovan/dir1/test.txt.1" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/REPOSITORY/jovan/dir2/test.txt.2" beforeDir="false" afterPath="$PROJECT_DIR$/REPOSITORY/jovan/dir2/test.txt.2" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/REPOSITORY/jovan/dir3/test.txt.3" beforeDir="false" afterPath="$PROJECT_DIR$/REPOSITORY/jovan/dir3/test.txt.3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/REPOSITORY/jovan/dir4/test.txt.4" beforeDir="false" afterPath="$PROJECT_DIR$/REPOSITORY/jovan/dir4/test.txt.4" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/REPOSITORY/jovan/dir5/test.txt.5" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/build/tmp/compileJava/previous-compilation-data.bin" beforeDir="false" afterPath="$PROJECT_DIR$/build/tmp/compileJava/previous-compilation-data.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/keystore.p12" beforeDir="false" afterPath="$PROJECT_DIR$/keystore.p12" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/unibl/etf/CARoot.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/unibl/etf/CARoot.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/unibl/etf/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/unibl/etf/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/org/unibl/etf/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/unibl/etf/User.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -89,6 +98,10 @@
       <workItem from="1677602676697" duration="4617000" />
       <workItem from="1677648653301" duration="11173000" />
       <workItem from="1677677171297" duration="3383000" />
+      <workItem from="1677680747750" duration="272000" />
+      <workItem from="1677687811253" duration="6199000" />
+      <workItem from="1677737991175" duration="6708000" />
+      <workItem from="1677759111140" duration="5423000" />
     </task>
     <servers />
   </component>
