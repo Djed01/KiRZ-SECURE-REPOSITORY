@@ -18,14 +18,11 @@
       <change beforePath="$PROJECT_DIR$/HASHES/jovan/test.txt.2.sig" beforeDir="false" afterPath="$PROJECT_DIR$/HASHES/jovan/test.txt.2.sig" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/HASHES/jovan/test.txt.3.sig" beforeDir="false" afterPath="$PROJECT_DIR$/HASHES/jovan/test.txt.3.sig" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/HASHES/jovan/test.txt.4.sig" beforeDir="false" afterPath="$PROJECT_DIR$/HASHES/jovan/test.txt.4.sig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/HASHES/jovan/test.txt.5.sig" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/REPOSITORY/jovan/dir1/test.txt.1" beforeDir="false" afterPath="$PROJECT_DIR$/REPOSITORY/jovan/dir1/test.txt.1" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/REPOSITORY/jovan/dir2/test.txt.2" beforeDir="false" afterPath="$PROJECT_DIR$/REPOSITORY/jovan/dir2/test.txt.2" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/REPOSITORY/jovan/dir3/test.txt.3" beforeDir="false" afterPath="$PROJECT_DIR$/REPOSITORY/jovan/dir3/test.txt.3" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/REPOSITORY/jovan/dir4/test.txt.4" beforeDir="false" afterPath="$PROJECT_DIR$/REPOSITORY/jovan/dir4/test.txt.4" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/REPOSITORY/jovan/dir5/test.txt.5" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/build/tmp/compileJava/previous-compilation-data.bin" beforeDir="false" afterPath="$PROJECT_DIR$/build/tmp/compileJava/previous-compilation-data.bin" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/unibl/etf/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/unibl/etf/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/unibl/etf/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/unibl/etf/User.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -56,13 +53,14 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "WebServerToolWindowFactoryState": "false"
   }
-}</component>
+}]]></component>
   <component name="RunManager">
     <configuration name="Main" type="Application" factoryName="Application">
       <option name="ALTERNATIVE_JRE_PATH" value="11" />
@@ -102,6 +100,11 @@
       <workItem from="1677687811253" duration="6199000" />
       <workItem from="1677737991175" duration="6708000" />
       <workItem from="1677759111140" duration="5423000" />
+      <workItem from="1677766081857" duration="4607000" />
+      <workItem from="1677774020231" duration="642000" />
+      <workItem from="1677781506073" duration="1940000" />
+      <workItem from="1677823901315" duration="5521000" />
+      <workItem from="1677831616038" duration="181000" />
     </task>
     <servers />
   </component>

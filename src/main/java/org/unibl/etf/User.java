@@ -3,13 +3,13 @@ package org.unibl.etf;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
 import javax.crypto.*;
-import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.security.*;
 import java.security.cert.X509Certificate;
+
 import java.util.Scanner;
 
 public class User {
@@ -105,11 +105,9 @@ public class User {
                         totalBytesWritten += encrypted.length;
                         bytesToRead -= bytesRead; // update bytes left to read
                     }
-                    // Save the hash to the file system
-                    MessageDigest digest = MessageDigest.getInstance("SHA-256");
-                    byte[] hashBytes = digest.digest(buffer);
-                    // Sign the hashes
-                    signature.update(hashBytes);
+
+                    // Sign the buffer
+                    signature.update(buffer);
                     byte[] digitalSignature = signature.sign();
 
                     FileOutputStream signatureFile = new FileOutputStream("./HASHES/"+username+"/"+partFileName+".sig");
@@ -121,13 +119,10 @@ public class User {
                     bos.write(finalEncrypted);
                     totalBytesWritten += finalEncrypted.length;
                     numBytesWritten += totalBytesWritten;
-                  //  System.out.println("Part " + (i+1) + " written: " + totalBytesWritten + " bytes");
                 } catch (IOException | BadPaddingException | IllegalBlockSizeException | InvalidKeyException | NoSuchAlgorithmException | NoSuchPaddingException | NoSuchProviderException e) {
                     e.printStackTrace();
                 }
             }
-
-          //  System.out.println("Total bytes written: " + numBytesWritten);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -145,6 +140,19 @@ public class User {
             File outputFile = new File("./DOWNLOADS/"+username+"/"+fileName);
             FileOutputStream outputStream = new FileOutputStream(outputFile);
 
+            // Load the CA keystore
+            KeyStore keyStore = KeyStore.getInstance("PKCS12", "BC");
+            FileInputStream keystoreStream = new FileInputStream("keystore.p12");
+            keyStore.load(keystoreStream, "sigurnost".toCharArray());
+            keystoreStream.close();
+
+            // Get the users certificate and private key from the keystore
+            X509Certificate userCert = (X509Certificate) keyStore.getCertificate(username);
+            PrivateKey userPrivateKey = (PrivateKey) keyStore.getKey(username, "sigurnost".toCharArray());
+            PublicKey userPublicKey = userCert.getPublicKey();
+
+            FileInputStream fis;
+
             // Iterate over the parts of the file
             int i = 1;
             while (true) {
@@ -154,6 +162,14 @@ public class User {
                     break;
                 }
 
+                // Load signature
+                File signatureFile = new File("./HASHES/"+username+"/"+partFileName+".sig");
+                fis = new FileInputStream(signatureFile);
+                byte[] signatureBytes = new byte[(int) signatureFile.length()];
+                fis.read(signatureBytes);
+                fis.close();
+
+
                 // Read the encrypted data from the input file
                 byte[] encryptedData = Files.readAllBytes(inputFile.toPath());
 
@@ -162,12 +178,22 @@ public class User {
                 cipher.init(Cipher.DECRYPT_MODE, key);
                 byte[] decryptedData = cipher.doFinal(encryptedData);
 
-                // Write the decrypted data to the output file
-                outputStream.write(decryptedData);
+                // Verify the signature using the public key
+                Signature signature = Signature.getInstance("SHA256withRSA");
+                signature.initVerify(userPublicKey);
+                signature.update(decryptedData);
+                boolean verified = signature.verify(signatureBytes);
+
+                if (verified) {
+                    System.out.println("VERIFIED!");
+                    // Write the decrypted data to the output file
+                    outputStream.write(decryptedData);
+                }else{
+                    System.out.println("FILE CORRUPTED!");
+                }
 
                 i++;
             }
-
             outputStream.close();
         } catch (Exception e) {
             e.printStackTrace();
