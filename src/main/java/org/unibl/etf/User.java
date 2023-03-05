@@ -8,6 +8,7 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.security.*;
+import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
 
 import java.util.Scanner;
@@ -74,8 +75,7 @@ public class User {
             keyStore.load(keystoreStream, "sigurnost".toCharArray());
             keystoreStream.close();
 
-            // Get the users certificate and private key from the keystore
-            X509Certificate userCert = (X509Certificate) keyStore.getCertificate(username);
+            // Get the users private key from the keystore
             PrivateKey userPrivateKey = (PrivateKey) keyStore.getKey(username, "sigurnost".toCharArray());
 
             Signature signature = Signature.getInstance("SHA256withRSA", "BC");
@@ -86,9 +86,9 @@ public class User {
                 try (BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream("./REPOSITORY/"+username+"/dir"+i+"/"+partFileName))) {
                     long bytesToRead;
                     if(i == numParts){
-                         bytesToRead = Math.min(bytesPerPart + (fileSize % numParts), remainingBytes); // calculate number of bytes to read with leftover
+                        bytesToRead = Math.min(bytesPerPart + (fileSize % numParts), remainingBytes); // calculate number of bytes to read with leftover
                     }else {
-                         bytesToRead = Math.min(bytesPerPart, remainingBytes); // calculate number of bytes to read
+                        bytesToRead = Math.min(bytesPerPart, remainingBytes); // calculate number of bytes to read
                     }
                     remainingBytes -= bytesToRead; // update remaining bytes
                     byte[] buffer = new byte[bufferSize];
@@ -99,15 +99,21 @@ public class User {
                     Cipher cipher = Cipher.getInstance("AES/ECB/PKCS7Padding", "BC");
                     cipher.init(Cipher.ENCRYPT_MODE, key);
 
+                    // Stream for storing all plain text bytes
+                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
                     while (bytesToRead > 0 && (bytesRead = bis.read(buffer, 0, (int)Math.min(buffer.length, bytesToRead))) != -1) {
+                        baos.write(buffer, 0, bytesRead); // write bytes to byte array output stream
                         byte[] encrypted = cipher.update(buffer, 0, bytesRead); // encrypt buffer
                         bos.write(encrypted); // write encrypted data to output file
                         totalBytesWritten += encrypted.length;
                         bytesToRead -= bytesRead; // update bytes left to read
                     }
 
+                    byte[] plainTextData = baos.toByteArray();
+
                     // Sign the buffer
-                    signature.update(buffer);
+                    signature.update(plainTextData);
                     byte[] digitalSignature = signature.sign();
 
                     FileOutputStream signatureFile = new FileOutputStream("./HASHES/"+username+"/"+partFileName+".sig");
@@ -119,7 +125,7 @@ public class User {
                     bos.write(finalEncrypted);
                     totalBytesWritten += finalEncrypted.length;
                     numBytesWritten += totalBytesWritten;
-                } catch (IOException | BadPaddingException | IllegalBlockSizeException | InvalidKeyException | NoSuchAlgorithmException | NoSuchPaddingException | NoSuchProviderException e) {
+                } catch (IOException  | BadPaddingException | IllegalBlockSizeException | InvalidKeyException | NoSuchAlgorithmException | NoSuchPaddingException | NoSuchProviderException e) {
                     e.printStackTrace();
                 }
             }
@@ -146,9 +152,8 @@ public class User {
             keyStore.load(keystoreStream, "sigurnost".toCharArray());
             keystoreStream.close();
 
-            // Get the users certificate and private key from the keystore
+            // Get the users certificate and public key from the keystore
             X509Certificate userCert = (X509Certificate) keyStore.getCertificate(username);
-            PrivateKey userPrivateKey = (PrivateKey) keyStore.getKey(username, "sigurnost".toCharArray());
             PublicKey userPublicKey = userCert.getPublicKey();
 
             FileInputStream fis;
@@ -173,10 +178,16 @@ public class User {
                 // Read the encrypted data from the input file
                 byte[] encryptedData = Files.readAllBytes(inputFile.toPath());
 
-                // Decrypt the data using AES decryption with the loaded AES key
-                Cipher cipher = Cipher.getInstance("AES/ECB/PKCS7Padding", "BC");
-                cipher.init(Cipher.DECRYPT_MODE, key);
-                byte[] decryptedData = cipher.doFinal(encryptedData);
+                byte[] decryptedData;
+                try {
+                    // Decrypt the data using AES decryption with the loaded AES key
+                    Cipher cipher = Cipher.getInstance("AES/ECB/PKCS5Padding", "BC");
+                    cipher.init(Cipher.DECRYPT_MODE, key);
+                    decryptedData = cipher.doFinal(encryptedData);
+                }catch (IllegalBlockSizeException e){
+                    System.out.println("FILE "+partFileName+" CORRUPTED!");
+                    break;
+                }
 
                 // Verify the signature using the public key
                 Signature signature = Signature.getInstance("SHA256withRSA");
@@ -185,11 +196,12 @@ public class User {
                 boolean verified = signature.verify(signatureBytes);
 
                 if (verified) {
-                    System.out.println("VERIFIED!");
+                    // System.out.println("VERIFIED!");
                     // Write the decrypted data to the output file
                     outputStream.write(decryptedData);
                 }else{
-                    System.out.println("FILE CORRUPTED!");
+                    System.out.println("FILE "+partFileName+" CORRUPTED!");
+                    outputStream.write(decryptedData);
                 }
 
                 i++;

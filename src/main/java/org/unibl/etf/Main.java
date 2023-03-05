@@ -26,10 +26,11 @@ public class Main {
         String username = scanner.nextLine();
         System.out.println("Enter password:");
         String password = scanner.nextLine();
-        certificateCreator.createCertificate(username,password);
+        certificateCreator.createCertificate(username);
         caRoot.savePassword(password,username);
         //Create folder for user
         new File("./REPOSITORY/"+username).mkdirs();
+        new File("./DOWNLOADS/"+username).mkdirs();
         new File("./HASHES/"+username).mkdirs();
         for(int i=1;i<= User.maxParts;i++){
             new File("./REPOSITORY/"+username+"/dir"+i).mkdirs();
@@ -42,13 +43,14 @@ public class Main {
         System.out.println("Enter the path to your certificate:");
         boolean suspended = false;
         String path = scanner.nextLine();
+        String username = null;
         // Check if the certificate is suspended
         if(!caRoot.isSuspended(path)) {
             if (caRoot.checkValidity(path)) {
                 for (int i = 0; i <= 3; i++) {
                     if (i == 3) {
                         File file = new File(path);
-                        String username = file.getName().replace(".crt", "");
+                        username = file.getName().replace(".crt", "");
                         caRoot.suspendCertificate(username);
                         System.out.println("Your certificate is suspended!");
                         System.out.println("Please enter the right credentials or make a new account.");
@@ -57,7 +59,7 @@ public class Main {
                         break;
                     }
                     System.out.println("Enter username:");
-                    String username = scanner.nextLine();
+                    username = scanner.nextLine();
                     System.out.println("Enter password:");
                     String password = scanner.nextLine();
                     //Check credentials
@@ -66,9 +68,12 @@ public class Main {
                     }
                 }
                 if (!suspended) {
-                    System.out.println("Welcome to your account!");
+                    System.out.println("Welcome to your repository!");
+                    repositoryMenu(username);
                 }
 
+            }else{
+                welcomeMenu();
             }
         }else{
             System.out.println("Your certificate is suspended!");
@@ -101,11 +106,11 @@ public class Main {
     }
 
     public static void repositoryMenu(String username){
-        System.out.println("Welcome to your repository!");
         System.out.println("Enter a command:");
         System.out.println("-list --> To show your list of files");
         System.out.println("-upload --> To upload a file to your repository");
-        System.out.println("-download --> To download a file from your repository\n");
+        System.out.println("-download --> To download a file from your repository");
+        System.out.println("-exit --> To exit the application\n");
         String option = scanner.nextLine();
         if("-list".equals(option)){
             list(username);
@@ -114,8 +119,14 @@ public class Main {
             user.upload(username);
             repositoryMenu(username);
         }else if("-download".equals(option)){
+            System.out.println("Enter the name of the file to download:");
+            String fileName = scanner.nextLine();
+            user.download(username,fileName);
+            repositoryMenu(username);
+        }else if("-exit".equals(option)){
 
-        }else{
+        }
+        else{
             System.out.println("Invalid command!\n\n");
             repositoryMenu(username);
         }
@@ -136,10 +147,10 @@ public class Main {
 
 
     public static void main(String[] args) {
-//        welcomeMenu();
-//        user.upload("jovan");
-          user.download("jovan","test.txt");
+       welcomeMenu();
+//       user.upload("jovan");
+//         user.download("jovan","test.txt");
 //        repositoryMenu("jovan");
-//        user.decrypt();
+
     }
 }

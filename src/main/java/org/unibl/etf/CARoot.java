@@ -2,26 +2,22 @@ package org.unibl.etf;
 
 import org.bouncycastle.asn1.x500.X500Name;
 import org.bouncycastle.asn1.x500.style.BCStyle;
-import org.bouncycastle.asn1.x500.style.RFC4519Style;
 import org.bouncycastle.cert.*;
 import org.bouncycastle.cert.jcajce.*;
 import org.bouncycastle.crypto.PBEParametersGenerator;
 import org.bouncycastle.crypto.digests.SHA256Digest;
-import org.bouncycastle.crypto.generators.BCrypt;
 import org.bouncycastle.crypto.generators.PKCS5S2ParametersGenerator;
 import org.bouncycastle.crypto.params.KeyParameter;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.openssl.jcajce.JcaPEMWriter;
 import org.bouncycastle.operator.ContentSigner;
 import org.bouncycastle.operator.OperatorCreationException;
-import org.bouncycastle.crypto.generators.BCrypt;
 
 import org.bouncycastle.operator.jcajce.JcaContentSignerBuilder;
 import org.bouncycastle.asn1.x509.CRLReason;
 
 import org.bouncycastle.cert.jcajce.JcaX509CRLConverter;
 
-import java.nio.charset.StandardCharsets;
 import java.security.cert.X509Certificate;
 import java.security.cert.X509CRL;
 import java.security.cert.X509CRLEntry;
@@ -362,9 +358,6 @@ public class CARoot {
             keyStore.load(keystoreStream, "sigurnost".toCharArray());
             keystoreStream.close();
 
-            // Get the CA certificate and private key from the keystore
-            PrivateKey caPrivateKey = (PrivateKey) keyStore.getKey("CARoot", "sigurnost".toCharArray());
-
             // Get the certificate that should be reactivated
             X509Certificate cert = (X509Certificate) keyStore.getCertificate(alias);
 
@@ -376,12 +369,13 @@ public class CARoot {
 
             // Find revoked certificate
             Set<? extends X509CRLEntry> set = crl.getRevokedCertificates();
-            Set<X509CRLEntry> updatedSet = new HashSet<>();
-            for (X509CRLEntry entry : set) {
-                BigInteger certSerialNumber = entry.getSerialNumber();
-                if (certSerialNumber.equals(cert.getSerialNumber())) {
-                    // Certificate is revoked
-                    return true;
+            if(set != null) {
+                for (X509CRLEntry entry : set) {
+                    BigInteger certSerialNumber = entry.getSerialNumber();
+                    if (certSerialNumber.equals(cert.getSerialNumber())) {
+                        // Certificate is revoked
+                        return true;
+                    }
                 }
             }
 

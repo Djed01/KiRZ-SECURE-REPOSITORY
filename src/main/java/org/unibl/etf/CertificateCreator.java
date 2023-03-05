@@ -26,7 +26,7 @@ import java.util.Date;
 
 public class CertificateCreator {
 
-    void createCertificate(String username, String password) {
+    void createCertificate(String username) {
         Security.addProvider(new BouncyCastleProvider());
         try {
             // Generate a new RSA key pair for the certificate request
