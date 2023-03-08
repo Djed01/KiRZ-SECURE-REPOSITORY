@@ -14,16 +14,23 @@
       <change beforePath="$PROJECT_DIR$/.gradle/file-system.probe" beforeDir="false" afterPath="$PROJECT_DIR$/.gradle/file-system.probe" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/CERTIFICATES/crl.crl" beforeDir="false" afterPath="$PROJECT_DIR$/CERTIFICATES/crl.crl" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CERTIFICATES/gordan.crt" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/CERTIFICATES/jovan.crt" beforeDir="false" afterPath="$PROJECT_DIR$/CERTIFICATES/jovan.crt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/CERTIFICATES/novica.crt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/CERTIFICATES/pero.crt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/PASSWORDS/gordan/password.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/PASSWORDS/pero/password.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/HASHES/jovan/test.txt.1.sig" beforeDir="false" afterPath="$PROJECT_DIR$/HASHES/jovan/test.txt.1.sig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HASHES/jovan/test.txt.2.sig" beforeDir="false" afterPath="$PROJECT_DIR$/HASHES/jovan/test.txt.2.sig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HASHES/jovan/test.txt.3.sig" beforeDir="false" afterPath="$PROJECT_DIR$/HASHES/jovan/test.txt.3.sig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HASHES/jovan/test.txt.4.sig" beforeDir="false" afterPath="$PROJECT_DIR$/HASHES/jovan/test.txt.4.sig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HASHES/jovan/test.txt.5.sig" beforeDir="false" afterPath="$PROJECT_DIR$/HASHES/jovan/test.txt.5.sig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/HASHES/jovan/test.txt.6.sig" beforeDir="false" afterPath="$PROJECT_DIR$/HASHES/jovan/test.txt.6.sig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/KEYS/AESkey.bin" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/REPOSITORY/jovan/dir1/test.txt.1" beforeDir="false" afterPath="$PROJECT_DIR$/REPOSITORY/jovan/dir1/test.txt.1" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/REPOSITORY/jovan/dir2/test.txt.2" beforeDir="false" afterPath="$PROJECT_DIR$/REPOSITORY/jovan/dir2/test.txt.2" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/REPOSITORY/jovan/dir3/test.txt.3" beforeDir="false" afterPath="$PROJECT_DIR$/REPOSITORY/jovan/dir3/test.txt.3" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/REPOSITORY/jovan/dir4/test.txt.4" beforeDir="false" afterPath="$PROJECT_DIR$/REPOSITORY/jovan/dir4/test.txt.4" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/REPOSITORY/jovan/dir5/test.txt.5" beforeDir="false" afterPath="$PROJECT_DIR$/REPOSITORY/jovan/dir5/test.txt.5" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/REPOSITORY/jovan/dir6/test.txt.6" beforeDir="false" afterPath="$PROJECT_DIR$/REPOSITORY/jovan/dir6/test.txt.6" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/build/tmp/compileJava/previous-compilation-data.bin" beforeDir="false" afterPath="$PROJECT_DIR$/build/tmp/compileJava/previous-compilation-data.bin" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/keystore.p12" beforeDir="false" afterPath="$PROJECT_DIR$/keystore.p12" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/unibl/etf/CARoot.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/unibl/etf/CARoot.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/unibl/etf/CertificateCreator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/unibl/etf/CertificateCreator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/unibl/etf/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/unibl/etf/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/org/unibl/etf/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/unibl/etf/User.java" afterDir="false" />
     </list>
@@ -107,6 +114,11 @@
       <workItem from="1677781506073" duration="1940000" />
       <workItem from="1677823901315" duration="5521000" />
       <workItem from="1677831616038" duration="181000" />
+      <workItem from="1678101796043" duration="6303000" />
+      <workItem from="1678108662023" duration="1379000" />
+      <workItem from="1678197010506" duration="6000" />
+      <workItem from="1678201022979" duration="3000" />
+      <workItem from="1678256114524" duration="3425000" />
     </task>
     <servers />
   </component>

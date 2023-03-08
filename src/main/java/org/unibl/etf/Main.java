@@ -28,13 +28,15 @@ public class Main {
         String password = scanner.nextLine();
         certificateCreator.createCertificate(username);
         caRoot.savePassword(password,username);
-        //Create folder for user
+        //Create folders for user
+        new File("./KEYS/"+username).mkdirs();
         new File("./REPOSITORY/"+username).mkdirs();
         new File("./DOWNLOADS/"+username).mkdirs();
         new File("./HASHES/"+username).mkdirs();
         for(int i=1;i<= User.maxParts;i++){
             new File("./REPOSITORY/"+username+"/dir"+i).mkdirs();
         }
+        user.generateSymmetricKey(username);
         System.out.println("Your account is created!\nPlease login using your certificate in yur CERTIFICATES folder.");
         welcomeMenu();
     }

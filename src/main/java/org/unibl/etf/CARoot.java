@@ -68,6 +68,7 @@ public class CARoot {
             X509CertificateHolder certHolder = builder.build(contentSigner);
             X509Certificate cert = new JcaX509CertificateConverter().setProvider("BC").getCertificate(certHolder);
 
+            // Generate keystore, add the CA and store the keystore to the file system
             KeyStore keyStore = KeyStore.getInstance("PKCS12", "BC");
             keyStore.load(null, null);
 
@@ -152,9 +153,9 @@ public class CARoot {
             }
 
             // Add the new revocation entry
-            crlBuilder.addCRLEntry(suspendedCert.getSerialNumber(), new Date(), CRLReason.CERTIFICATE_HOLD);
+            crlBuilder.addCRLEntry(suspendedCert.getSerialNumber(), new Date(), CRLReason.certificateHold);
 
-            // Sign the CRL using the CA private key
+            // Generate the updated version of the CRL
             ContentSigner signer = new JcaContentSignerBuilder("SHA256withRSA").build(caPrivateKey);
             X509CRLHolder crlHolder = crlBuilder.build(signer);
             JcaX509CRLConverter converter = new JcaX509CRLConverter();
@@ -183,7 +184,7 @@ public class CARoot {
             keyStore.load(keystoreStream, "sigurnost".toCharArray());
             keystoreStream.close();
 
-            // Get the CA certificate and private key from the keystore
+            // Get the CA private key from the keystore
             PrivateKey caPrivateKey = (PrivateKey) keyStore.getKey("CARoot", "sigurnost".toCharArray());
 
             // Get the certificate that should be reactivated
@@ -344,7 +345,7 @@ public class CARoot {
         }
     }
 
-    boolean isSuspended(String path){
+    boolean isSuspended(String path) {
         // Get alias from path
         File file = new File(path);
         String alias = file.getName().replace(".crt", "");
@@ -369,7 +370,7 @@ public class CARoot {
 
             // Find revoked certificate
             Set<? extends X509CRLEntry> set = crl.getRevokedCertificates();
-            if(set != null) {
+            if (set != null) {
                 for (X509CRLEntry entry : set) {
                     BigInteger certSerialNumber = entry.getSerialNumber();
                     if (certSerialNumber.equals(cert.getSerialNumber())) {
@@ -379,7 +380,10 @@ public class CARoot {
                 }
             }
 
-        }catch (Exception e){
+        }
+        catch (NullPointerException e){
+            return false;
+        } catch (Exception e){
             e.printStackTrace();
         }
         return false;

@@ -1,6 +1,12 @@
 package org.unibl.etf;
 
+import org.bouncycastle.asn1.x500.X500Name;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
+import org.bouncycastle.operator.ContentSigner;
+import org.bouncycastle.operator.jcajce.JcaContentSignerBuilder;
+import org.bouncycastle.pkcs.PKCS10CertificationRequest;
+import org.bouncycastle.pkcs.PKCS10CertificationRequestBuilder;
+import org.bouncycastle.pkcs.jcajce.JcaPKCS10CertificationRequestBuilder;
 
 import javax.crypto.*;
 import javax.crypto.spec.SecretKeySpec;
@@ -19,8 +25,7 @@ public class User {
 
     Scanner scanner = new Scanner(System.in);
 
-
-    public void generateSymmetricKey(){
+    public void generateSymmetricKey(String username){
         // Add BouncyCastleProvider to Security Providers
         Security.addProvider(new BouncyCastleProvider());
         try {
@@ -30,12 +35,27 @@ public class User {
             keyGen.init(128, random);
             // Generate the AES key
             SecretKey aesKey = keyGen.generateKey();
-            // Save the AES key to a file
-            byte[] keyBytes = aesKey.getEncoded();
-            FileOutputStream keyOut = new FileOutputStream("./KEYS/AESkey.bin");
-            keyOut.write(keyBytes);
+
+            // Load the CA keystore
+            KeyStore keyStore = KeyStore.getInstance("PKCS12", "BC");
+            FileInputStream keystoreStream = new FileInputStream("keystore.p12");
+            keyStore.load(keystoreStream, "sigurnost".toCharArray());
+            keystoreStream.close();
+
+            // Get the users certificate and private key from the keystore
+            X509Certificate userCert = (X509Certificate) keyStore.getCertificate(username);
+            PublicKey userPublicKey = userCert.getPublicKey();
+
+            // Encrypt AES key with RSA public key (Digital envelope)
+            Cipher cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
+            cipher.init(Cipher.ENCRYPT_MODE, userPublicKey);
+            byte[] encryptedAesKeyBytes = cipher.doFinal(aesKey.getEncoded());
+
+            // Save the encrypted AES key to a file
+            FileOutputStream keyOut = new FileOutputStream("./KEYS/"+username+"/AESkey.bin");
+            keyOut.write(encryptedAesKeyBytes);
             keyOut.close();
-            System.out.println("AES key saved to AESkey.bin");
+            System.out.println("Encrypted AES key saved to AESkey.bin");
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -50,7 +70,7 @@ public class User {
         int numParts = (int) Math.floor(Math.random() * (maxParts - minParts + 1) + minParts); // choose between 4 and 7 parts randomly
 
         int bufferSize = 1024; // buffer size in bytes
-        String keyFile = "./KEYS/AESkey.bin"; // path to file containing AES key
+        String keyFile = "./KEYS/"+username+"/AESkey.bin"; // path to file containing AES key
         byte[] keyBytes = null;
 
         try (BufferedInputStream bis = new BufferedInputStream(new FileInputStream(inputFile))) {
@@ -58,16 +78,7 @@ public class User {
             long bytesPerPart = fileSize / numParts; // calculate number of bytes per output file
             long remainingBytes = fileSize; // remaining bytes to read
             int numBytesWritten = 0;
-
-            // read AES key from file
-            try (BufferedInputStream keyStream = new BufferedInputStream(new FileInputStream(keyFile))) {
-                keyBytes = new byte[keyStream.available()];
-                keyStream.read(keyBytes);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            // create AES key object
-            SecretKeySpec key = new SecretKeySpec(keyBytes, "AES");
+            byte[] encryptedAesKeyBytes = null;
 
             // Load the CA keystore
             KeyStore keyStore = KeyStore.getInstance("PKCS12", "BC");
@@ -75,8 +86,26 @@ public class User {
             keyStore.load(keystoreStream, "sigurnost".toCharArray());
             keystoreStream.close();
 
-            // Get the users private key from the keystore
+            // Get the users certificate and private key from the keystore
+            X509Certificate userCert = (X509Certificate) keyStore.getCertificate(username);
             PrivateKey userPrivateKey = (PrivateKey) keyStore.getKey(username, "sigurnost".toCharArray());
+
+            // read AES key from file
+            try (BufferedInputStream keyStream = new BufferedInputStream(new FileInputStream(keyFile))) {
+                keyBytes = new byte[keyStream.available()];
+                keyStream.read(keyBytes);
+
+                // Decrypt AES key with RSA private key
+                Cipher cipher = Cipher.getInstance("RSA/ECB/PKCS1Padding");
+                cipher.init(Cipher.DECRYPT_MODE, userPrivateKey);
+                encryptedAesKeyBytes = cipher.doFinal(keyBytes);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            // create AES key object
+            SecretKeySpec key = new SecretKeySpec(encryptedAesKeyBytes, "AES");
 
             Signature signature = Signature.getInstance("SHA256withRSA", "BC");
             signature.initSign(userPrivateKey);
@@ -138,9 +167,9 @@ public class User {
         // Add Bouncy Castle provider
         Security.addProvider(new BouncyCastleProvider());
         try {
-            // Load the AES 128 key from the file system
-            byte[] keyBytes = Files.readAllBytes(Paths.get("./KEYS/AESkey.bin"));
-            SecretKeySpec key = new SecretKeySpec(keyBytes, "AES");
+            // Load the encrypted AES 128 key from the file system
+            byte[] keyBytes = Files.readAllBytes(Paths.get("./KEYS/"+username+"/AESkey.bin"));
+
 
             // Create a new file to store the decrypted data
             File outputFile = new File("./DOWNLOADS/"+username+"/"+fileName);
@@ -155,6 +184,14 @@ public class User {
             // Get the users certificate and public key from the keystore
             X509Certificate userCert = (X509Certificate) keyStore.getCertificate(username);
             PublicKey userPublicKey = userCert.getPublicKey();
+            PrivateKey userPrivateKey = (PrivateKey) keyStore.getKey(username, "sigurnost".toCharArray());
+
+
+            // Decrypt AES key with RSA private key
+            Cipher cipherDec = Cipher.getInstance("RSA/ECB/PKCS1Padding");
+            cipherDec.init(Cipher.DECRYPT_MODE, userPrivateKey);
+            byte[] encryptedAesKeyBytes = cipherDec.doFinal(keyBytes);
+            SecretKeySpec key = new SecretKeySpec(encryptedAesKeyBytes, "AES");
 
             FileInputStream fis;
 
